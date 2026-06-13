@@ -16,6 +16,9 @@ https://github.com/user-attachments/assets/2d6458fc-03f0-4554-b7d8-2a216563ee0a
 
 <video src="./showcase/recordFish.mp4" controls></video>
 
+(For some reason, the video is not playing in the README.md, github says
+
+it "Sorry about that, but we can’t show files that are this big right now")
 
 Which makes for some nice smooth motions. It reminded me of some fish, so I 
 added some fish textures and some basic water shaders : 
