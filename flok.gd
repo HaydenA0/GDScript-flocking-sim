@@ -4,6 +4,28 @@ extends Node2D
 
 @onready var bubble_particles: GPUParticles2D = $BubbleParticles
 
+const FLOCK_SIZE = 250
+const MAX_SPEED = 600
+const MAX_FORCE = 200
+
+const AGENT_COLOR = Color(0.2, 0.6, 1.0)
+const AGENT_SIZE = 8
+
+
+
+const WEIGHT_DODGE = 520
+const WEIGHT_ALIGN = 80
+const WEIGHT_COHESION = 30
+
+const AWARE_RADIUS = 250
+
+const MOUSE_CLICK_RADIUS = 200
+const MAX_FORCE_MOUSE = 1000
+
+const COHESION_RADIUS = int(AWARE_RADIUS * 0.5)
+const ALIGNMENT_RADIUS = int(AWARE_RADIUS * 1.0)
+const DODGE_RADIUS = int(AWARE_RADIUS * 0.10)
+
 class Agent :
 	var pos : Vector2
 	var velocity : Vector2
@@ -40,23 +62,6 @@ class Agent :
 
 var agents: Array[Agent] = []
 
-const FLOCK_SIZE = 150
-const MAX_SPEED = 600
-const MAX_FORCE = 200
-
-const AGENT_COLOR = Color(0.2, 0.6, 1.0)
-const AGENT_SIZE = 8
-
-
-
-const WEIGHT_DODGE = 520
-const WEIGHT_ALIGN = 80
-const WEIGHT_COHESION = 30
-
-const AWARE_RADIUS = 250
-const COHESION_RADIUS = int(AWARE_RADIUS * 0.5)
-const ALIGNMENT_RADIUS = int(AWARE_RADIUS * 1.0)
-const DODGE_RADIUS = int(AWARE_RADIUS * 0.10)
 
 var loaded_fish_textures: Array[Texture2D] = load_all_fish_textures()
 
@@ -109,17 +114,19 @@ func update_phyics(agent: Agent, delta: float) -> void:
 	agent.pos += agent.velocity * delta
 
 func _process(delta: float) -> void:
-	# add a check for if it the mouse was clicked
-	# when it was clicked, add this behavior :
-	# apply in a radius MOUSE_CLICK_RADIUS a constant you should define up
-	# a force in every direction in that radius
-	# the force should be proportional to the distance from the mouse
-	# push the agents away from the mouse
 	var viewport_size: Vector2 = get_viewport_rect().size
 	var blind_angle : float = 75.0
 
+	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
+
 	for agent in agents :
 		agent.acceleration = Vector2.ZERO
+
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			var to_agent: Vector2 = agent.pos - mouse_pos
+			var dist: float = to_agent.length()
+			if dist < MOUSE_CLICK_RADIUS and dist > 0.0:
+				agent.acceleration += to_agent.normalized() * dist / MOUSE_CLICK_RADIUS * MAX_FORCE_MOUSE
 
 		var close_agents_slice : Array[Agent] = get_close_agents_slice(agent, agents, AWARE_RADIUS, blind_angle)
 
@@ -153,7 +160,10 @@ func emit_particle(agent: Agent) -> void:
 
 func _draw() -> void:
 	var viewport_size: Vector2 = get_viewport_rect().size
-	
+
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		var mouse_pos: Vector2 = get_viewport().get_mouse_position()
+		draw_circle(mouse_pos, MOUSE_CLICK_RADIUS, Color(1.0, 1.0, 1.0, 0.15), false, 2.0)
 
 	var water_surface_color : Color = Color(0.4, 0.8, 1.0)
 	var water_deep_color : Color = Color(0.04, 0.2, 0.4)
