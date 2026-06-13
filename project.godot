@@ -35,4 +35,4 @@ window/size/borderless=true
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-environment/defaults/default_clear_color=Color(0.11119679, 0.11119687, 0.11119684, 1)
+environment/defaults/default_clear_color=Color(0.16017744, 0.41935912, 0.54948545, 1)

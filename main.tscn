@@ -1,6 +1,39 @@
 [gd_scene format=3 uid="uid://bbrkpr6o5hoq6"]
 
 [ext_resource type="Script" uid="uid://mo3sb2iolbdn" path="res://flok.gd" id="1_ig7tw"]
+[ext_resource type="Shader" uid="uid://bkyetv6ca0ne7" path="res://main.gdshader" id="2_0xm2m"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0xm2m"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+gravity = Vector3(0, -50, 0)
+scale_min = 0.0
+scale_max = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h2yge"]
+shader = ExtResource("2_0xm2m")
+shader_parameter/sea_light = Color(0.11372549, 0.59607846, 1, 0.72156864)
+shader_parameter/sea_dark = Color(0, 0, 0.06948045, 0.6313726)
+shader_parameter/ray_color = Color(1, 1, 1, 1)
+shader_parameter/aspect_ratio = 1.16
+shader_parameter/ray_intensity = 0.466000022135
+shader_parameter/ray_length = 1.6800000765401202
+shader_parameter/ray_focus = 4.7600001786
+shader_parameter/ray_cone_width = 1.0
+shader_parameter/ambient_tint_strength = 0.51200002432
+shader_parameter/z_distance = 0.0
+shader_parameter/vignette_strength = 0.4800000228
 
 [node name="main" type="Node2D" unique_id=2057083392]
 script = ExtResource("1_ig7tw")
+
+[node name="BubbleParticles" type="GPUParticles2D" parent="." unique_id=243428668]
+emitting = false
+amount = 2000
+process_material = SubResource("ParticleProcessMaterial_0xm2m")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=416938617]
+material = SubResource("ShaderMaterial_h2yge")
+offset_left = -3.0
+offset_right = 1915.0
+offset_bottom = 1066.0
