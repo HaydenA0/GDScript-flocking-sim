@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bbrkpr6o5hoq6"]
+
+[ext_resource type="Script" uid="uid://mo3sb2iolbdn" path="res://flok.gd" id="1_ig7tw"]
+
+[node name="main" type="Node2D" unique_id=2057083392]
+script = ExtResource("1_ig7tw")
