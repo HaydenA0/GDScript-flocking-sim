@@ -1,4 +1,8 @@
 
+
+
+
+
 # Description
 
 A lightweight 2D flocking simulation written in GDScript for Godot 4. It
@@ -7,3 +11,4 @@ alignment, and cohesion.
 
 
 # Show case
+https://github.com/user-attachments/assets/2d6458fc-03f0-4554-b7d8-2a216563ee0a
